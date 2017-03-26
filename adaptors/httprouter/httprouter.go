@@ -524,8 +524,13 @@ func formatPath(path string) string {
 
 	for _, v := range splittedN1 {
 		if len(v) > 0 {
-			if v[0] == ':' || v[0] == matchEverythingByte {
-				path = strings.Replace(path, v, "%v", -1) // n1Len, but let it we don't care about performance here.
+			vLen := strings.Count(v, ":")
+			if vLen > 0 {
+				if v[0] == ':' || v[0] == matchEverythingByte {
+					path = strings.Replace(path, v, "%v", -1) // n1Len, but let it we don't care about performance here.
+				} else if vLen == 1 {
+					path = strings.Replace(path, v, "%v", -1)
+				}
 			}
 		}
 	}
